@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cidadania</title>
+    
+    <style>
+        body {
+            background-color: rgba(86, 19, 117, 0.418);
+        }
+
+        h1 {
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: justify;
+            color: rgb(92, 13, 165);
+            box-shadow: 2px 2px 2px 2px rgb(16, 68, 68);
+            width: 30%;
+        }
+
+        input {
+            font-size: 18px;
+        }
+
+        div#res1 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Exercicio</h1>
+    País de origem:
+    <input type="name" name="país" id="país">
+    <input type="button" value="Verificar" onclick="consultar()">
+
+    <div id="res1"></div>
+
+    <script>
+        function consultar() {
+
+            var pa = document.getElementById('país') // esta var recebe país digitado no input;
+            var res1 = document.getElementById('res1') /* esta var recebe a div resultado que o 
+            texto irá ser substituído pelo innerHTML; */
+            var p = (pa.value) /* esta var recebe o valor da var nomePaís, transforma em 
+            maíuscula para ser reconhecida abaixo com o if e o innerHTML fazer a interpolação. */
+
+            res1.innerHTML = `<p>Você nasceu em <strong>${p}.</strong></p>`
+            if (p != 'Brasil') {
+                res1.innerHTML += `<p>Você é <strong>Estrangeiro!</strong></p>`
+            } else {
+                res1.innerHTML += `<p>Você é <strong>Brasileiro!</strong></p>`
+            }
+        }
+    </script>
+</body>
+</html>
