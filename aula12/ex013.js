@@ -5,7 +5,7 @@ var diaSem = agora.getDay()
 
 switch(diaSem) {
     case 0:
-        console.log('Doming')
+        console.log('Domingo')
         break // break é necessario em switch
     case 1:
         console.log('Segunda')
