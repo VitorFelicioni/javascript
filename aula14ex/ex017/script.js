@@ -7,7 +7,7 @@ function tabuada() {
     } else {
         let n = Number(num.value)
         let c = 1
-        tab.innerHTML = ''
+        tab.innerHTML = '' // Faz limpar o formulario ja que nao tem valor especificado
 
         while (c <= 10) {
             let item = document.createElement('option')
