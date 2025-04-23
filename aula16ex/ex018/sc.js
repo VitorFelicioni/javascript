@@ -1,61 +1,70 @@
-let num = document.getElementById('cont')
-let tab = document.getElementById('tabel')
-let res = document.getElementById('res')
-let valor = [] // array
+var listNumbers = [];
 
-function isNum(n) {
-    if(Number(n) >= 1 && Number(n) <= 100) {  // verifica se o numero digitado é valido
-        return true
-    } else {
-        return false
+function adiciona() {
+    const valorAddInput = document.getElementById("cont");
+    const idDivResposta = document.getElementById("res");
+    idDivResposta.innerHTML = '';
+    const tabela = document.getElementById("tabel");
+    const valorInput = valorAddInput.value;
+    valorAddInput.value = '';
+    if (valorInput && !listNumbers.includes(valorInput) && valorInput >= 1 && valorInput <= 100) {
+        listNumbers.push(valorInput);
+        const option = new Option(`Valor ${valorInput} adicionado.`, valorInput);
+        option.id = valorInput;
+        option.onclick = function eraseOption() {
+            const id = this.id;
+            const tabela = document.getElementById("tabel");
+            const optionToRemove = tabela.querySelector(`option[id="${id}"]`)
+            if (optionToRemove) {
+                const index = listNumbers.indexOf(this.id);
+                listNumbers.splice(index);
+                tabela.removeChild(optionToRemove);
+                idDivResposta.innerHTML = '';
+            }
+        }
+        
+        tabela.add(option);
     }
-}
-
-function inTab(n, t) {
-    if (t.indexOf(Number(n)) != -1) {  // verifica se o numero esta na tabela
-        return true
-    } else {
-        return false
+    else if (valorInput < 1 && valorInput > 100) {
+        alert(`Valor precisa estar entre 1 e 100`);
     }
-}
-
-function adicionar() {
-    if (isNum(num.value) && !inTab(num.value, valor)) {
-        valor.push(Number(num.value)) // adiciona elemento ao array
-        let item = document.createElement('option') // adiciona valores na tabela
-        item.text = `Valor ${num.value} adicionado.` // adiciona valores na tabela
-        tab.appendChild(item) // adiciona valores na tabela
-        res.innerHTML = ''
-    } else {
-        window.alert('Valor inválido.')
+    else if (listNumbers.includes(valorInput)) {
+        alert(`Numero ${valorInput} já existe na lista, escolha outro`);
     }
-    num.value = ''
-    num.focus()
+    else {
+        alert("Adicione um valor antes de clicar em adicionar")
+    }
 }
 
 function finalizar() {
-    if (valor.length == 0) {
-        window.alert('Adicione valores primeiro.')
-    } else {
-        let tot = valor.length
-        let maior = valor[0]
-        let menor = valor[0]
-        let soma = 0
-        let media = 0
-        for (let pos in valor) {  // serve para percorrer o array inteiro (percurso)
-            soma += valor[pos]
-            if (valor[pos] > maior)
-                maior = valor[pos]
-            if (valor[pos] < menor)
-                menor = valor[pos]
-        }
-
-        media = soma / tot
-        res.innerHTML = ''
-        res.innerHTML += `<p>Ao todo, temos ${tot} números cadastrados.</p>`
-        res.innerHTML += `<p>O maior valor informado foi ${maior}.</p>`
-        res.innerHTML += `<p>O menor valor informado foi ${menor}.</p>`
-        res.innerHTML += `<p>Somando todos os valores, temos ${soma}.</p>`
-        res.innerHTML += `<p>A média dos valores digitados é ${media}.</p>`
+    if (!listNumbers.length) {
+        alert("Adicione numeros para finalizar")
+        return;
     }
+    const idDivResposta = document.getElementById("res");
+    const quantityNumbers = listNumbers.length;
+    const highestNumber = listNumbers.sort()[listNumbers.length - 1];
+    const lowestNumber = listNumbers.sort()[0];
+    const sumValues = sumAllValues();
+    const median = sumValues / quantityNumbers;
+
+    let html = `
+        <p>Ao todo, temos ${quantityNumbers} numeros cadastrados.</p>
+        <p>O maior valor informado foi ${highestNumber}.</p>
+        <p>O menor valor informado foi ${lowestNumber}</p>
+        <p>Somando todos os valores, temos ${sumValues}</p>
+        <p>A média dos valores digitados é ${median.toFixed(2)}</p>
+    `
+    idDivResposta.innerHTML = html;
 }
+
+
+function sumAllValues() {
+    let valor = 0;
+    for (let i = 0; i < listNumbers.length; i++) {
+        valor += Number(listNumbers[i]);
+    }
+
+    return valor;
+}
+
